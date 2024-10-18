@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { TicketModule } from './ticket/ticket.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TicketModule } from './ticket/ticket.module';
     }),
     UserModule,
     TicketModule,
+    AuthModule
 
   ],
   controllers: [],

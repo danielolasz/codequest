@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Ticket, TicketDocument } from './ticket.schema';
-import { CreateTicketDto } from './dto/create-ticket.dto';
+import { TicketDocument } from './ticket.schema';
 import fetch from 'node-fetch';
 import OpenAI from 'openai';
 import { ConfigService } from '@nestjs/config';
-import { User } from 'src/user/user.schema';
 import { UserService } from 'src/user/user.service';
+import { ITicket } from './ticket.interface';
+import { User } from 'src/user/user.schema';
+import { CreateTicketDto } from './dto/create-ticket.dto';
 
 @Injectable()
 export class TicketService {
@@ -27,24 +28,28 @@ export class TicketService {
     this.processTickets('daniel.olasz@p92.hu');
   }
 
-  async create(createTicketDto: CreateTicketDto): Promise<Ticket> {
-    const createdTicket = new this.ticketModel(createTicketDto);
+  async create(newTicket: CreateTicketDto): Promise<ITicket> {
+    const createdTicket = new this.ticketModel(newTicket);
     return createdTicket.save();
   }
 
-  async findAll(): Promise<Ticket[]> {
+  async findAll(): Promise<ITicket[]> {
     return this.ticketModel.find().exec();
   }
 
   async processTickets(email: string) {
 
-    const user: User = await this.userService.findByEmail(email)
+    const user: User = await this.userService.findByEmail(email) as User;
     const tickets = await this.fetchTickets(email);
 
+    if (!user) {
+      console.error('User is required but was not provided.');
+      return;
+    }
     for (const ticket of tickets) {
       const newTicket: CreateTicketDto = {
-        title: ticket.fields.summary,
-        description: ticket.fields.description,
+        title: ticket.fields.summary ? ticket.fields?.summary : "Default Title",
+        description: ticket.fields.description ? tickets.fields?.description : "No description",
         user: user
       };
       this.create(newTicket);
