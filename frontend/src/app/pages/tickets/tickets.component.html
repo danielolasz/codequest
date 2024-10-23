@@ -9,15 +9,15 @@
                 <hlm-trow>
                     <hlm-th class="w-1/4">Title</hlm-th>
                     <hlm-th class="w-1/4">Description</hlm-th>
-                    <hlm-th class="w-1/4">Date</hlm-th>
+                    <hlm-th class="w-1/4">Created</hlm-th>
                     <hlm-th class="w-1/4">User</hlm-th>
                 </hlm-trow>
                 @for (ticket of paginatedTickets; track ticket.title) {
                 <hlm-trow>
                     <hlm-td class="w-1/4">{{ ticket.title }}</hlm-td>
                     <hlm-td class="w-1/4">{{ ticket.description }}</hlm-td>
-                    <hlm-td class="w-1/4">{{ ticket.date }}</hlm-td>
-                    <hlm-td class="w-1/4">{{ ticket.user }}</hlm-td>
+                    <hlm-td class="w-1/4">{{ ticket.created }}</hlm-td>
+                    <hlm-td class="w-1/4">{{ ticket.user.name }}</hlm-td>
                 </hlm-trow>
                 }
             </hlm-table>

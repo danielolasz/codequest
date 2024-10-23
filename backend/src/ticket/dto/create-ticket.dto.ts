@@ -1,6 +1,9 @@
 import { User } from 'src/user/user.schema';
-import { IsString } from 'class-validator';
+import { IsDate, IsNumber, IsString } from 'class-validator';
 export class CreateTicketDto {
+
+  @IsNumber()
+  ticketId: number;
 
   @IsString()
   title: string;
@@ -9,4 +12,10 @@ export class CreateTicketDto {
   description: string;
   
   user: User;
+
+  @IsDate()
+  created: Date
+
+  @IsString()
+  status: string;
 }
