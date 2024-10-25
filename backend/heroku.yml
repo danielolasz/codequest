@@ -1,0 +1,5 @@
+build:
+  docker:
+    web: Dockerfile
+release:
+  command: npm run start:prod

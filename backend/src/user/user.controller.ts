@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, HttpException, HttpStatus, ConflictException } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException, HttpStatus, ConflictException, Res } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SignUpDto } from './dto/signup.dto'
 import { Public } from 'src/auth/constants';
@@ -23,7 +23,8 @@ export class UserController {
   }
 
   @Get()
-  async findAll() {
-    return this.usersService.findAll();
+  async findAll(@Res() res) {
+    const users = await this.usersService.findAll();
+    return res.json(users);
   }
 }

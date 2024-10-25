@@ -1,21 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { TicketDocument } from './ticket.schema';
+import { Ticket, TicketDocument } from './ticket.schema';
 import fetch from 'node-fetch';
 import OpenAI from 'openai';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from 'src/user/user.service';
-import { ITicket } from './ticket.interface';
 import { CreateTicketDto } from './dto/create-ticket.dto';
-import { IUser } from 'src/user/user.interface';
+import { User } from 'src/user/user.schema';
 
 @Injectable()
 export class TicketService {
   private openai: OpenAI;
   private apiToken: string;
   private url: string = 'https://bonago.atlassian.net/rest/api/2/search';
-  private users: IUser[]
+  private users: User[]
 
   constructor(
     @InjectModel('Ticket') private ticketModel: Model<TicketDocument>, private userService: UserService,
@@ -30,7 +29,7 @@ export class TicketService {
     this.processTickets();
   }
 
-  async create(newTicket: CreateTicketDto): Promise<ITicket> {
+  async create(newTicket: CreateTicketDto): Promise<Ticket> {
     const createdTicket = new this.ticketModel(newTicket);
     if(createdTicket) {
       await this.userService.addTicketToUser(createdTicket.user, createdTicket._id)
@@ -38,7 +37,7 @@ export class TicketService {
     return createdTicket.save();
   }
 
-  async findAll(): Promise<ITicket[]> {
+  async findAll(): Promise<Ticket[]> {
     return this.ticketModel.find().populate('user').exec();
   }
 

@@ -13,15 +13,17 @@ import { AuthModule } from './auth/auth.module';
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: `mongodb://${configService.get<string>('DB_HOST')}:${configService.get<string>('DB_PORT')}/${configService.get<string>('DB_NAME')}`,
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const mongoUri = configService.get<string>('DB_URI');
+        return {
+          uri: mongoUri
+        };
+      },
       inject: [ConfigService],
     }),
     UserModule,
     TicketModule,
-    AuthModule
-
+    AuthModule,
   ],
   controllers: [],
   providers: [],

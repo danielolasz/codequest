@@ -7,5 +7,6 @@ export interface User {
     password: string;
     tickets: Ticket[] | null;
     role: 'developer' | 'manager';
+    developers?: User[] | null
   }
   

@@ -2,7 +2,7 @@ import { Controller, Post, Body, HttpException, HttpStatus, UnauthorizedExceptio
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
 import { Public } from './constants';
-import { IUser } from '../user/user.interface';
+import { User } from 'src/user/user.schema';
 
 @Controller('auth')
 export class AuthController {
@@ -12,7 +12,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() credentials: LoginDto) {
     try {
-      const user: IUser = await this.authService.validateUser(
+      const user: User = await this.authService.validateUser(
         credentials.email,
         credentials.password,
       );
