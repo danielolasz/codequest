@@ -1,0 +1,48 @@
+<div class="py-6 flex flex-col items-center">
+    <section hlmCard class="w-full max-w-7xl">
+        <div hlmCardHeader>
+            <h3 hlmCardTitle>Tickets</h3>
+            <p hlmCardDescription>from Jira</p>
+        </div>
+        <p hlmCardContent>
+            <hlm-table class="border rounded-xl block">
+                <hlm-trow>
+                    <hlm-th class="w-1/4">Title</hlm-th>
+                    <hlm-th class="w-1/4">Description</hlm-th>
+                    <hlm-th class="w-1/4">Created</hlm-th>
+                    <hlm-th class="w-1/4">User</hlm-th>
+                </hlm-trow>
+                @for (ticket of paginatedTickets; track ticket.title) {
+                <hlm-trow>
+                    <hlm-td class="w-1/4">{{ ticket.title }}</hlm-td>
+                    <hlm-td class="w-1/4">{{ ticket.description }}</hlm-td>
+                    <hlm-td class="w-1/4">{{ ticket.created }}</hlm-td>
+                    <hlm-td class="w-1/4">{{ ticket.user.name }}</hlm-td>
+                </hlm-trow>
+                }
+            </hlm-table>
+        </p>
+        <div hlmCardFooter class="flex justify-between">
+            <brn-select placeholder="5" [(ngModel)]="ticketsPerPage" (ngModelChange)="updatePagination()">
+                <hlm-select-trigger>
+                    <hlm-select-value />
+                </hlm-select-trigger>
+                <hlm-select-content>
+                    <hlm-option [value]="5">5</hlm-option>
+                    <hlm-option [value]="10">10</hlm-option>
+                    <hlm-option [value]="20">20</hlm-option>
+                    <hlm-option [value]="tickets.length">All</hlm-option>
+                </hlm-select-content>
+            </brn-select>
+            <div class="flex gap-1 items-center">
+                <button hlmBtn size="icon" variant="outline" (click)="previousPage()" [disabled]="currentPage === 1">
+                    <hlm-icon size='sm' name="lucideChevronLeft" />
+                </button>
+                <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                <button hlmBtn size="icon" variant="outline" (click)="nextPage()" [disabled]="currentPage === totalPages">
+                    <hlm-icon size='sm' name="lucideChevronRight" />
+                </button>
+            </div>
+        </div>
+    </section>
+</div>

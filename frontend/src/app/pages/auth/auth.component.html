@@ -1,0 +1,81 @@
+<div class="flex flex-row items-center justify-center w-full h-screen">
+    @if (isLogin) {
+        <div class="bg-[#56b5f7] w-2/5 h-full text-neutral-100 flex flex-col justify-center items-center">
+            <h1 hlmH1>Welcome back!</h1>
+        </div>
+        <div class="flex flex-col justify-center items-center h-full w-3/5">
+        <section class="w-[500px] p-8" hlmCard>
+            <div hlmCardHeader class="p-0">
+                <h1 hlmH3 class="text-center">Please log in to your account!</h1>
+            </div>
+            <form [formGroup]="authForm" (ngSubmit)="login()">
+                <p hlmCardContent class="flex flex-col gap-4 mt-8 p-0">
+                    <label class="block" hlmLabel>
+                        Email address
+                        <input class="mt-1.5 w-full" placeholder="test@p92.hu" type="email" hlmInput formControlName="email" />
+                    </label>
+                    <label class="block" hlmLabel>
+                        Password
+                        <input class="mt-1.5 w-full" placeholder="password" type="password" hlmInput formControlName="password" />
+                    </label>
+                </p>
+                <div hlmCardFooter class="justify-between p-0 mt-8 w-full flex flex-col gap-2">
+                    <button hlmBtn class="w-full bg-blue-800" type="submit">Log in</button>
+                    <hr class="w-full border-gray-200 my-2">
+                    <span class="flex gap-4">
+                        Not a member yet?
+                        <a (click)="isLogin = false" class="text-blue-800 font-semibold cursor-pointer hover:opacity-80">Sign up</a>
+                    </span>
+                </div>
+            </form>
+        </section>
+    </div>
+    } @else {
+        <div class="bg-[#56b5f7] w-2/5 h-full text-neutral-100 flex flex-col justify-center items-center">
+            <h1 hlmH1>Welcome newcomer!</h1>
+        </div>
+        <div class="flex flex-col justify-center items-center h-full w-3/5">
+            <section class="w-[500px] p-8" hlmCard>
+                <div hlmCardHeader class="p-0">
+                    <h1 hlmH3 class="text-center">Please register an account!</h1>
+                </div>
+                <form [formGroup]="authForm" (ngSubmit)="signup()">
+                    <p hlmCardContent class="flex flex-col gap-4 mt-8 p-0">
+                        <label class="block" hlmLabel>
+                            Full Name
+                            <input class="mt-1.5 w-full" placeholder="Full Name" type="text" hlmInput formControlName="name" required />
+                        </label>
+                        <label class="block" hlmLabel>
+                            Email address
+                            <input class="mt-1.5 w-full" placeholder="test@p92.hu" type="email" hlmInput formControlName="email" required />
+                        </label>
+                        <label class="block" hlmLabel>
+                            Password
+                            <input class="mt-1.5 w-full" placeholder="Password" type="password" hlmInput formControlName="password" required />
+                        </label>
+                        <label class="block" hlmLabel>
+                            Confirm Password
+                            <input class="mt-1.5 w-full" placeholder="Confirm Password" type="password" hlmInput formControlName="confirmPassword" required />
+                        </label>
+                        <label class="block" hlmLabel>
+                            Role
+                            <select class="mt-1.5 w-full" hlmInput formControlName="role">
+                                <option value="developer">Developer</option>
+                                <option value="manager">Manager</option>
+                            </select>
+                        </label>
+                    </p>
+                    <div hlmCardFooter class="justify-between p-0 mt-8 w-full flex flex-col gap-2">
+                        <button hlmBtn class="w-full bg-blue-800" type="submit" 
+                                [disabled]="!authForm.valid || !isPasswordMatch()">Sign up</button>
+                        <hr class="w-full border-gray-200 my-2">
+                        <span class="flex gap-4">
+                            Already a member?
+                            <a (click)="isLogin = true" class="text-blue-800 font-semibold cursor-pointer hover:opacity-80">Log in</a>
+                        </span>
+                    </div>
+                </form>
+            </section>
+        </div>
+    }
+</div>
