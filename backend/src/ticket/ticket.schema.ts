@@ -27,6 +27,9 @@ export class Ticket {
 
   @Prop()
   created: Date;
+
+  @Prop()
+  priority: string;
 }
 
 export const TicketSchema = SchemaFactory.createForClass(Ticket);

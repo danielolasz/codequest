@@ -21,9 +21,6 @@ export class User {
   
   @Prop({ required: true, enum: ['developer', 'manager'] })
   role: 'developer' | 'manager';
-
-  @Prop({ type: [Types.ObjectId], ref: 'User' })
-  developers: User[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

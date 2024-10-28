@@ -6,8 +6,8 @@ import fetch from 'node-fetch';
 import OpenAI from 'openai';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from 'src/user/user.service';
-import { CreateTicketDto } from './dto/create-ticket.dto';
 import { User } from 'src/user/user.schema';
+import { CreateTicketDto } from './dto/create-ticket.dto';
 
 @Injectable()
 export class TicketService {
@@ -65,6 +65,7 @@ export class TicketService {
             user: user,
             created: ticket.fields.created ? ticket.fields.created : Date.now(),
             status: ticket.fields.status.name ? ticket.fields.status.name : "None",
+            priority: ticket.fields.priority.name ? ticket.fields.priority.name : "None"
           };
           this.create(newTicket);
 
@@ -81,7 +82,7 @@ export class TicketService {
       const bodyData = JSON.stringify({
         jql: 'assignee = "' + email + '" ORDER BY created DESC',
         maxResults: 100,
-        fields: ['summary', 'status', 'assignee', 'description', 'created'],
+        fields: ['summary', 'status', 'assignee', 'description', 'created', 'priority'],
         startAt: 0,
       });
       const response = await fetch(this.url, {
