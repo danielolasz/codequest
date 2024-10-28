@@ -12,6 +12,9 @@ import { HlmCardModule } from '@spartan-ng/ui-card-helm';
 import { ApiService } from '../../shared/api/api.service';
 import { interval, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { AuthService } from '../../shared/auth/auth.service';
+import { User } from '../../shared/models/user.model';
+import { Reward } from '../../shared/models/reward.model';
 
 @Component({
   selector: 'app-tickets',
@@ -36,16 +39,26 @@ export class TicketsComponent implements OnInit {
   paginatedTickets: Ticket[] = [];
   private subscription: Subscription | null = null;
   protected tickets: Ticket[] = [];
+  loggedInUser: User | undefined;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.loggedInUser = this.authService.getUser();
     this.updatePagination();
 
     this.subscription = interval(5000)
       .pipe(switchMap(() => this.apiService.get<Ticket[]>('tickets')))
       .subscribe((response) => {
         console.log(response);
+        if(this.loggedInUser?.role === "developer") {
+          for (const ticket of response) {
+            if(ticket.user === this.loggedInUser) {
+              this.tickets.push(ticket);
+            }
+          }
+          this.tickets = response;
+        }
         this.tickets = response;
         this.updatePagination();
       });
@@ -87,5 +100,39 @@ export class TicketsComponent implements OnInit {
       this.currentPage++;
       this.paginateTickets();
     }
+  }
+
+  reward(ticketId: number, reward: number): void {
+    const newreward: Reward = {
+      ticketId: ticketId,
+      reward: reward,
+      rewarded: new Date(),
+      rewardedBy: this.loggedInUser as User
+    }
+
+    this.apiService.post<{ message: string }>('tickets/reward', newreward)
+    .subscribe(response => {
+      if (response && response.message) {
+        console.log(response.message);
+      }
+    });
+  }
+
+  finishTicket(ticketId: number): void {
+    this.apiService.post<{ message: string }>('tickets/finish', ticketId)
+    .subscribe(response => {
+      if (response && response.message) {
+        console.log(response.message);
+      }
+    });
+  }
+
+  assignTicket(ticketId: number, user: User): void {
+    this.apiService.post<{ message: string }>('tickets/assign', { ticketId, user })
+    .subscribe(response => {
+      if (response && response.message) {
+        console.log(response.message);
+      }
+    });
   }
 }

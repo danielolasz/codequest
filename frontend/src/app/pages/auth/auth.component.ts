@@ -10,6 +10,8 @@ import { ReactiveFormsModule } from '@angular/forms'; // Import ReactiveFormsMod
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ApiService } from '../../shared/api/api.service';
+import { User } from '../../shared/models/user.model';
+import { AuthService } from '../../shared/auth/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -33,7 +35,8 @@ export class AuthComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ) {
     this.authForm = this.fb.group({
       name: ['', Validators.required],
@@ -46,10 +49,11 @@ export class AuthComponent {
 
   login() {
     const credentials = { email: this.authForm.value.email, password: this.authForm.value.password };
-    this.apiService.post<{ token: string }>('auth/login', credentials)
+    this.apiService.post<{ token: string, user: User }>('auth/login', credentials)
       .subscribe(response => {
         if (response && response.token) {
           localStorage.setItem('jwtToken', response.token);
+          this.authService.setUser(response.user);
           this.router.navigateByUrl('/tickets');
         }
       });
@@ -58,10 +62,13 @@ export class AuthComponent {
   signup() {
     if (this.authForm.valid && this.isPasswordMatch()) {
       const newUser = this.authForm.value;
-      this.apiService.post<{ token: string }>('users/signup', newUser)
+      this.apiService.post<{ token: string, user: User }>('users/signup', newUser)
         .subscribe(response => {
           if (response) {
             console.log(response);
+            this.authService.setUser(response.user);
+            localStorage.setItem('jwtToken', response.token);
+            this.router.navigateByUrl('/tickets');
           }
         });
     }

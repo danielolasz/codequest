@@ -30,6 +30,16 @@ export class Ticket {
 
   @Prop()
   priority: string;
+
+  @Prop()
+  reward: number;
+
+  @Prop()
+  rewarded: Date;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  rewardedBy: User;
+  
 }
 
 export const TicketSchema = SchemaFactory.createForClass(Ticket);

@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/user.schema';
 import { CreateTicketDto } from './dto/create-ticket.dto';
+import { RewardTicketDto } from './dto/reward-ticket.dto';
 
 @Injectable()
 export class TicketService {
@@ -39,6 +40,10 @@ export class TicketService {
 
   async findAll(): Promise<Ticket[]> {
     return this.ticketModel.find().populate('user').exec();
+  }
+
+  async findById(ticketId: number): Promise<Ticket> {
+    return this.ticketModel.findOne({ ticketId }).exec();
   }
 
   async processTickets() {
@@ -114,5 +119,29 @@ export class TicketService {
       ],
       model: 'gpt-3.5-turbo',
     });
+  }
+
+  async rewardTicket(reward: RewardTicketDto): Promise<void> {
+    const ticket = await this.findById(reward.ticketId);
+    const user = await this.userService.findOne(reward.rewardedBy)
+    ticket.rewardedBy = user;
+    ticket.rewarded = reward.rewarded;
+    ticket.reward = reward.reward;
+    const rewardedTicket = new this.ticketModel(ticket);
+    await rewardedTicket.save();
+  }
+
+  async finishTicket(ticketId: number): Promise<void> {
+    const ticket = await this.findById(ticketId);
+    ticket.status = "Done";
+    const rewardedTicket = new this.ticketModel(ticket);
+    await rewardedTicket.save();
+  }
+
+  async assignTicket(ticketId: number, user: User): Promise<void> {
+    const ticket = await this.findById(ticketId);
+    ticket.user = user;
+    const rewardedTicket = new this.ticketModel(ticket);
+    await rewardedTicket.save();
   }
 }
