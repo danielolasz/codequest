@@ -17,7 +17,10 @@ export class Ticket {
   description: string;
 
   @Prop()
-  level: string;
+  level:  number;
+
+  @Prop()
+  level_explanation: string;
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   user: User;
@@ -37,7 +40,7 @@ export class Ticket {
   @Prop()
   rewarded: Date;
 
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'User'})
   rewardedBy: User;
   
 }

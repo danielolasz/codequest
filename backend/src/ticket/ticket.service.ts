@@ -23,7 +23,8 @@ export class TicketService {
   ) {
     this.apiToken = configService.get<string>('JIRA_API_TOKEN');
     this.openai = new OpenAI({
-      apiKey: configService.get<string>('CHATGPT_API_TOKEN'),
+      apiKey: configService.get<string>('LLAMA_API_KEY'),
+      baseURL: 'https://integrate.api.nvidia.com/v1',
     });
 
 
@@ -72,7 +73,8 @@ export class TicketService {
             status: ticket.fields.status.name ? ticket.fields.status.name : "None",
             priority: ticket.fields.priority.name ? ticket.fields.priority.name : "None"
           };
-          this.create(newTicket);
+          const createdTicket = await this.create(newTicket);
+          await this.addTicketLevel(createdTicket)
 
         } catch (error) {
           console.error("Error happend while creating ticket: " + error)
@@ -104,21 +106,29 @@ export class TicketService {
       const text = JSON.parse(await response.text());
       return text.issues;
     } catch (error) {
-      console.error('Error fetching Jira events:', error);
+      console.error('Error fetching Jira events: ', error);
     }
   }
 
-  async callChatGpt(description: string) {
+  async callOpenAI(description: string):Promise<string> {
+
     const completion = await this.openai.chat.completions.create({
+      model: "nvidia/llama-3.1-nemotron-70b-instruct",
       messages: [
         {
           role: 'user',
           content:
-            'What dou you think about this programming task? Is it Junior, Medior or Senior? Reply with only one of these words. ' + description,
+            'Provide JSON template response when assessing the following task seniority for a web developer, using the format: { "level": <0-10>, "summary": "summary text here" }: ' +
+            description +
+            "Don't provide anything else but the json. Don't put quotes around it.",
         },
       ],
-      model: 'gpt-3.5-turbo',
+      temperature: 0,
+      top_p: 1,
+      max_tokens: 200,
+      stream: false,
     });
+    return completion.choices[0].message.content;
   }
 
   async rewardTicket(reward: RewardTicketDto): Promise<void> {
@@ -143,5 +153,16 @@ export class TicketService {
     ticket.user = user;
     const rewardedTicket = new this.ticketModel(ticket);
     await rewardedTicket.save();
+  }
+
+  async addTicketLevel(ticket: Ticket): Promise<void> {    
+    try {       
+      const response = await this.callOpenAI(ticket.description);
+      ticket.level = JSON.parse(response).level as number
+      ticket.level_explanation = JSON.parse(response).summary;    
+      await this.create(ticket);
+    } catch (error) {
+       console.error('Error while trying to add ticket level: ', error);
+    }
   }
 }
