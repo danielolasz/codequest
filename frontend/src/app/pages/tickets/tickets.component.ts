@@ -114,8 +114,6 @@ export class TicketsComponent implements OnInit {
     }
   }
 
-  assign() {}
-    // assign ticket
   reward(ticketId: number, reward: number): void {
     const newreward: Reward = {
       ticketId: ticketId,
@@ -141,7 +139,11 @@ export class TicketsComponent implements OnInit {
     });
   }
 
-  assignTicket(ticketId: number, user: User): void {
+  assignTicket(ticketId: number): void {
+    if (!this.selectedUser) {
+      return;
+    }
+    const user = this.selectedUser;
     this.apiService.post<{ message: string }>('tickets/assign', { ticketId, user })
     .subscribe(response => {
       if (response && response.message) {

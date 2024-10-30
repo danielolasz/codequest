@@ -18,7 +18,7 @@
                         <hlm-td class="w-1/4">{{ ticket.description }}</hlm-td>
                         <hlm-td class="w-1/4">{{ ticket.created }}</hlm-td>
                         <hlm-td class="w-1/4">
-                            <brn-select placeholder="Choose user" [(ngModel)]="selectedUser" (ngModelChange)="assign()">
+                            <brn-select placeholder="Choose user" [(ngModel)]="selectedUser" (ngModelChange)="assignTicket(ticket.ticketId)">
                                 <hlm-select-trigger>
                                     @if (ticket.user.name !== null) {
                                         {{ ticket.user.name }}
