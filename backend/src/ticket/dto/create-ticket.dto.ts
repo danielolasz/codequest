@@ -18,4 +18,7 @@ export class CreateTicketDto {
 
   @IsString()
   status: string;
+
+  @IsString()
+  priority: string;
 }

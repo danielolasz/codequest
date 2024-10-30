@@ -17,7 +17,7 @@ export class AuthController {
         credentials.password,
       );
       const token: string = await this.authService.generateToken({ email: user.email });
-      return { token };
+      return { message: 'Login successful', user, token };
     } catch (error) {
       if (error instanceof UnauthorizedException) {
         throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);

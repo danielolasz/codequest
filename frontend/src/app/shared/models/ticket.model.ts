@@ -8,4 +8,6 @@ export interface Ticket {
     user: User;
     created: Date;
     status: string;
+    level_explanation?: string | null;
+    priotity: string;
 }
