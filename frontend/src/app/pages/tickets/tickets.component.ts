@@ -37,8 +37,11 @@ export class TicketsComponent implements OnInit {
   currentPage = 1;
   totalPages = 1;
   paginatedTickets: Ticket[] = [];
-  private subscription: Subscription | null = null;
+  private subscriptions: Subscription[] = [];
   protected tickets: Ticket[] = [];
+  protected users: User[] = [];
+  protected selectedUser: User | null = null;
+
   loggedInUser: User | undefined;
 
   constructor(private apiService: ApiService, private authService: AuthService) {}
@@ -47,7 +50,7 @@ export class TicketsComponent implements OnInit {
     this.loggedInUser = this.authService.getUser();
     this.updatePagination();
 
-    this.subscription = interval(5000)
+    this.subscriptions.push(interval(5000)
       .pipe(switchMap(() => this.apiService.get<Ticket[]>('tickets')))
       .subscribe((response) => {
         console.log(response);
@@ -61,12 +64,21 @@ export class TicketsComponent implements OnInit {
         }
         this.tickets = response;
         this.updatePagination();
-      });
+      }));
+
+    this.subscriptions.push(
+      this.apiService.get<User[]>('users').subscribe((response) => { 
+        console.log(response);
+        this.users = response;
+      })
+    )
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.subscriptions.length > 0) {
+      this.subscriptions.forEach(sub => {
+        sub.unsubscribe();
+      });;
     }
   }
 
@@ -127,7 +139,11 @@ export class TicketsComponent implements OnInit {
     });
   }
 
-  assignTicket(ticketId: number, user: User): void {
+  assignTicket(ticketId: number): void {
+    if (!this.selectedUser) {
+      return;
+    }
+    const user = this.selectedUser;
     this.apiService.post<{ message: string }>('tickets/assign', { ticketId, user })
     .subscribe(response => {
       if (response && response.message) {

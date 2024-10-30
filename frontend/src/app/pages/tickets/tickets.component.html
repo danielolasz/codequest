@@ -13,12 +13,30 @@
                     <hlm-th class="w-1/4">User</hlm-th>
                 </hlm-trow>
                 @for (ticket of paginatedTickets; track ticket.title) {
-                <hlm-trow>
-                    <hlm-td class="w-1/4">{{ ticket.title }}</hlm-td>
-                    <hlm-td class="w-1/4">{{ ticket.description }}</hlm-td>
-                    <hlm-td class="w-1/4">{{ ticket.created }}</hlm-td>
-                    <hlm-td class="w-1/4">{{ ticket.user.name }}</hlm-td>
-                </hlm-trow>
+                    <hlm-trow>
+                        <hlm-td class="w-1/4">{{ ticket.title }}</hlm-td>
+                        <hlm-td class="w-1/4">{{ ticket.description }}</hlm-td>
+                        <hlm-td class="w-1/4">{{ ticket.created }}</hlm-td>
+                        <hlm-td class="w-1/4">
+                            <brn-select placeholder="Choose user" [(ngModel)]="selectedUser" (ngModelChange)="assignTicket(ticket.ticketId)">
+                                <hlm-select-trigger>
+                                    @if (ticket.user.name !== null) {
+                                        {{ ticket.user.name }}
+                                    } @else if (selectedUser !== null) {
+                                        {{ selectedUser.name }}
+                                    } @else {
+                                        Choose user
+                                    }
+                                </hlm-select-trigger>
+                                <hlm-select-content>
+                                    @for (user of users; track user.name) {
+                                        <hlm-option [value]="user">{{ user.name }}</hlm-option>
+                                    }
+                                </hlm-select-content>
+                            </brn-select>
+
+                        </hlm-td>
+                    </hlm-trow>
                 }
             </hlm-table>
         </p>
@@ -39,7 +57,8 @@
                     <hlm-icon size='sm' name="lucideChevronLeft" />
                 </button>
                 <span>Page {{ currentPage }} of {{ totalPages }}</span>
-                <button hlmBtn size="icon" variant="outline" (click)="nextPage()" [disabled]="currentPage === totalPages">
+                <button hlmBtn size="icon" variant="outline" (click)="nextPage()"
+                    [disabled]="currentPage === totalPages">
                     <hlm-icon size='sm' name="lucideChevronRight" />
                 </button>
             </div>
