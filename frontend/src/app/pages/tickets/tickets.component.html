@@ -1,4 +1,4 @@
-<div class="py-6 flex flex-col items-center">
+<div class="p-6 flex flex-col items-center">
     <section hlmCard class="w-full max-w-7xl">
         <div hlmCardHeader>
             <h3 hlmCardTitle>Tickets</h3>
@@ -7,18 +7,24 @@
         <p hlmCardContent>
             <hlm-table class="border rounded-xl block">
                 <hlm-trow>
-                    <hlm-th class="w-1/4">Title</hlm-th>
-                    <hlm-th class="w-1/4">Description</hlm-th>
-                    <hlm-th class="w-1/4">Created</hlm-th>
-                    <hlm-th class="w-1/4">User</hlm-th>
+                    <hlm-th class="w-[15%]">Title</hlm-th>
+                    <hlm-th class="w-[40%]">Description</hlm-th>
+                    <hlm-th class="w-[15%]">Created</hlm-th>
+                    <hlm-th class="w-[14%]">User</hlm-th>
+                    <hlm-th class="w-[8%]">Status</hlm-th>
+                    <hlm-th class="w-[8%]">Actions</hlm-th>
                 </hlm-trow>
                 @for (ticket of paginatedTickets; track ticket.title) {
-                    <hlm-trow>
-                        <hlm-td class="w-1/4">{{ ticket.title }}</hlm-td>
-                        <hlm-td class="w-1/4">{{ ticket.description }}</hlm-td>
-                        <hlm-td class="w-1/4">{{ ticket.created }}</hlm-td>
-                        <hlm-td class="w-1/4">
-                            <brn-select placeholder="Choose user" [(ngModel)]="selectedUser" (ngModelChange)="assignTicket(ticket.ticketId)">
+                <hlm-trow>
+                    <hlm-td class="w-[15%]">{{ ticket.title }}</hlm-td>
+                    <hlm-td class="w-[40%]">{{ ticket.description }}</hlm-td>
+                    <hlm-td class="w-[15%]">{{ ticket.created }}</hlm-td>
+                    <hlm-td class="w-[14%]">
+                        @if (loggedInUser?.role === 'developer') {
+                            {{ ticket.user.name }}
+                        } @else {
+                            <brn-select placeholder="Choose user" [(ngModel)]="selectedUser"
+                                (ngModelChange)="assignTicket(ticket.ticketId)">
                                 <hlm-select-trigger>
                                     @if (ticket.user.name !== null) {
                                         {{ ticket.user.name }}
@@ -31,12 +37,59 @@
                                 <hlm-select-content>
                                     @for (user of users; track user.name) {
                                         <hlm-option [value]="user">{{ user.name }}</hlm-option>
+                                    } @empty {
+                                        @if (loadingUsers) {
+                                            <hlm-spinner class="text-blue-800" />
+                                        } @else {
+                                            <hlm-option [disabled]="true">No users found</hlm-option>
+                                        }
                                     }
                                 </hlm-select-content>
                             </brn-select>
-
-                        </hlm-td>
-                    </hlm-trow>
+                        }
+                    </hlm-td>
+                    <hlm-td class="w-[8%]">
+                        {{ ticket.status }}
+                    </hlm-td>
+                    <hlm-td class="w-[8%]">
+                        <button [brnMenuTriggerFor]="actionMenu">
+                            <hlm-icon name="lucideMoreVertical" />
+                        </button>
+                        <ng-template #actionMenu>
+                            <hlm-menu>
+                                <hlm-menu-label>Actions</hlm-menu-label>
+                                <hlm-menu-separator />
+                                <hlm-menu-group>
+                                    @if (ticket.status === 'In Progress') {
+                                        <button hlmMenuItem (click)="finishTicket(ticket._id)">
+                                            Finish ticket (Done)
+                                        </button>
+                                    }
+                                    @if (ticket.status === 'Done') {
+                                        <button hlmMenuItem (click)="reopenTicket(ticket._id)">
+                                            Reopen ticket
+                                        </button>
+                                    }
+                                    @if (ticket.status === 'Done') {
+                                        <button hlmMenuItem (click)="openRewardModal(ticket._id, ticket.user.name)">
+                                            Reward user
+                                        </button>
+                                    }
+                                </hlm-menu-group>
+                            </hlm-menu>
+                        </ng-template>
+                    </hlm-td>
+                </hlm-trow>
+                } @empty {
+                    @if (loadingTickets) {
+                        <hlm-trow class="flex justify-center py-12">
+                            <hlm-spinner class="[&>svg]:text-blue-800" />
+                        </hlm-trow>
+                    } @else {
+                        <hlm-trow>
+                            <hlm-td class="text-center" colspan="6">No tickets found</hlm-td>
+                        </hlm-trow>
+                    }
                 }
             </hlm-table>
         </p>

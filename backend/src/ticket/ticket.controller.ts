@@ -33,6 +33,16 @@ export class TicketController {
     }
   }
 
+  @Post('reopen')
+  async reopenTicket(@Body() ticketId: number) {
+    try {
+      await this.ticketService.reopenTicket(ticketId);    
+      return { message: 'Ticket reopened successfully' }
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   @Post('assign')
   async assignTicket(@Body() ticketId: number, user: User) {
     try {

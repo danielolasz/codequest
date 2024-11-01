@@ -1,6 +1,7 @@
 import { User } from "./user.model";
 
 export interface Ticket {
+    _id: number;
     title: string;
     description: string;
     ticketId: number;
