@@ -11,4 +11,5 @@ export interface Ticket {
     status: string;
     level_explanation?: string | null;
     priotity: string;
+    reward: number;
 }

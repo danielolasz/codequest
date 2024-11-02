@@ -1,6 +1,6 @@
 @if (router.url !== '/welcome' && router.url !== '/auth') {
     <app-navigation></app-navigation>
 }
-<div id="page-wrapper" class="flex flex-row w-full h-full ml-32">
+<div id="page-wrapper" class="flex flex-row w-full h-full" [style]="router.url !== '/welcome' && router.url !== '/auth' ? 'margin-left: 128px;' : ''">
     <router-outlet></router-outlet>
 </div>

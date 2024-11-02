@@ -4,12 +4,12 @@ import { HlmButtonModule } from '@spartan-ng/ui-button-helm';
 import { HlmIconModule, provideIcons } from '@spartan-ng/ui-icon-helm';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../models/user.model';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [HlmButtonModule, HlmIconModule, RouterLink],
+  imports: [HlmButtonModule, HlmIconModule, RouterLink, RouterLinkActive],
   providers: [provideIcons({ lucideLogOut, lucideTicket, lucideUser })],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss'

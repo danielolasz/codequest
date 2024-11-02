@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HlmSelectImports, HlmSelectModule } from '@spartan-ng/ui-select-helm';
 import { BrnSelectImports } from '@spartan-ng/ui-select-brain';
 import { HlmButtonModule } from '@spartan-ng/ui-button-helm';
-import { lucideChevronLeft, lucideChevronRight, lucideMoreVertical } from '@ng-icons/lucide';
+import { lucideCheck, lucideChevronLeft, lucideChevronRight, lucideMoreVertical, lucideStar } from '@ng-icons/lucide';
 import { BrnMenuTriggerDirective } from '@spartan-ng/ui-menu-brain';
 import {
   HlmMenuModule,
@@ -22,6 +22,8 @@ import { Reward } from '../../shared/models/reward.model';
 import { HlmDialogService } from '@spartan-ng/ui-dialog-helm';
 import { RewardDialogComponent } from '../../shared/components/dialogs/reward-dialog/reward-dialog.component';
 import { HlmSpinnerModule } from '@spartan-ng/ui-spinner-helm';
+import { HlmTooltipComponent, HlmTooltipModule, HlmTooltipTriggerDirective } from '@spartan-ng/ui-tooltip-helm';
+import { BrnTooltipContentDirective } from '@spartan-ng/ui-tooltip-brain';
 
 @Component({
   selector: 'app-tickets',
@@ -36,9 +38,12 @@ import { HlmSpinnerModule } from '@spartan-ng/ui-spinner-helm';
     HlmCardModule,
     HlmMenuModule,
     BrnMenuTriggerDirective,
-    HlmSpinnerModule
+    HlmSpinnerModule,
+    HlmTooltipComponent,
+    HlmTooltipTriggerDirective,
+    BrnTooltipContentDirective,
   ],
-  providers: [provideIcons({ lucideChevronRight, lucideChevronLeft, lucideMoreVertical })],
+  providers: [provideIcons({ lucideChevronRight, lucideChevronLeft, lucideMoreVertical, lucideStar, lucideCheck })],
   templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss',
 })
@@ -83,6 +88,7 @@ export class TicketsComponent implements OnInit {
         } else {
           this.tickets = response;
         }
+
         this.updatePagination();
         this.loadingTickets = false;
       }));
