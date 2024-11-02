@@ -142,6 +142,7 @@ export class TicketsComponent implements OnInit {
       this.dialog.open(RewardDialogComponent, { context: { userName } })
         .closed$.subscribe((reward: number) => {
           if (reward) {
+            console.log(`Rewarding ticket ${ticketId} with ${reward} points`);
             this.reward(ticketId, reward);
           }
         })
