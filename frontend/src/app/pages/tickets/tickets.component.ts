@@ -73,11 +73,10 @@ export class TicketsComponent implements OnInit {
       .pipe(switchMap(() => this.apiService.get<Ticket[]>('tickets')))
       .subscribe((response) => {
         console.log(response);
-        console.log(this.loggedInUser);
-        
+
         if (this.loggedInUser?.role === "developer") {
-          for (const ticket of response) {
-            if (ticket.user === this.loggedInUser) {
+          for (const ticket of response) {            
+            if (ticket.user._id === this.loggedInUser._id) {
               this.tickets.push(ticket);
             }
           }
@@ -137,7 +136,7 @@ export class TicketsComponent implements OnInit {
     }
   }
 
-  openRewardModal(ticketId: number, userName: string): void {
+  openRewardModal(ticketId: string, userName: string): void {
     this.subscriptions.push(
       this.dialog.open(RewardDialogComponent, { context: { userName } })
         .closed$.subscribe((reward: number) => {
@@ -149,7 +148,7 @@ export class TicketsComponent implements OnInit {
     );
   }
 
-  reward(ticketId: number, reward: number): void {
+  reward(ticketId: string, reward: number): void {
     const newreward: Reward = {
       ticketId: ticketId,
       reward: reward,
@@ -165,7 +164,7 @@ export class TicketsComponent implements OnInit {
       });
   }
 
-  finishTicket(ticketId: number): void {
+  finishTicket(ticketId: string): void {
     this.apiService.post<{ message: string }>('tickets/finish', {ticketId})
       .subscribe(response => {
         if (response && response.message) {
@@ -174,7 +173,7 @@ export class TicketsComponent implements OnInit {
       });
   }
 
-  reopenTicket(ticketId: number): void {
+  reopenTicket(ticketId: string): void {
     this.apiService.post<{ message: string }>('tickets/reopen', {ticketId})
       .subscribe(response => {
         if (response && response.message) {
@@ -183,7 +182,7 @@ export class TicketsComponent implements OnInit {
       });
   }
 
-  assignTicket(ticketId: number): void {
+  assignTicket(ticketId: string): void {
     if (!this.selectedUser) {
       return;
     }

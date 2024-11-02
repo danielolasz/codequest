@@ -1,7 +1,7 @@
 import { User } from "./user.model";
 
 export interface Reward {
-    ticketId: number;
+    ticketId: string;
     rewardedBy: User;
     rewarded: Date;
     reward: number;

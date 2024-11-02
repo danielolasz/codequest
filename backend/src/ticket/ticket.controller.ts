@@ -24,19 +24,20 @@ export class TicketController {
   }
 
   @Post('finish')
-  async finishTicket(@Body() ticketId: number) {
+  async finishTicket(@Body() param: { ticketId: string }) {
     try {
-      await this.ticketService.finishTicket(ticketId);    
+      await this.ticketService.finishTicket(param.ticketId);    
       return { message: 'Ticket finished successfully' }
     } catch (error) {
+      console.log(error);
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Post('reopen')
-  async reopenTicket(@Body() ticketId: number) {
+  async reopenTicket(@Body() param: { ticketId: string }) {
     try {
-      await this.ticketService.reopenTicket(ticketId);    
+      await this.ticketService.reopenTicket(param.ticketId);    
       return { message: 'Ticket reopened successfully' }
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
@@ -44,9 +45,9 @@ export class TicketController {
   }
 
   @Post('assign')
-  async assignTicket(@Body() ticketId: number, user: User) {
+  async assignTicket(@Body() param: { ticketId: string, user: User }) {
     try {
-      await this.ticketService.assignTicket(ticketId, user);    
+      await this.ticketService.assignTicket(param.ticketId, param.user);    
       return { message: 'Ticket assigned successfully' }
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);

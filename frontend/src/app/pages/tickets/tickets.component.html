@@ -24,7 +24,7 @@
                             {{ ticket.user.name }}
                         } @else {
                             <brn-select placeholder="Choose user" [(ngModel)]="selectedUser"
-                                (ngModelChange)="assignTicket(ticket.ticketId)">
+                                (ngModelChange)="assignTicket(ticket._id)">
                                 <hlm-select-trigger>
                                     @if (ticket.user.name !== null) {
                                         {{ ticket.user.name }}

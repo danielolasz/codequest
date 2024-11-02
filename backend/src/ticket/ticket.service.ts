@@ -43,8 +43,8 @@ export class TicketService {
     return this.ticketModel.find().populate('user').exec();
   }
 
-  async findById(ticketId: number): Promise<Ticket> {
-    return this.ticketModel.findOne({ ticketId }).exec();
+  async findById(_id: string): Promise<Ticket> {
+    return this.ticketModel.findOne({ _id }).exec();
   }
 
   async processTickets() {
@@ -141,21 +141,21 @@ export class TicketService {
     await rewardedTicket.save();
   }
 
-  async finishTicket(ticketId: number): Promise<void> {
+  async finishTicket(ticketId: string): Promise<void> {
     const ticket = await this.findById(ticketId);
     ticket.status = "Done";
     const rewardedTicket = new this.ticketModel(ticket);
     await rewardedTicket.save();
   }
 
-  async reopenTicket(ticketId: number): Promise<void> {
+  async reopenTicket(ticketId: string): Promise<void> {
     const ticket = await this.findById(ticketId);
     ticket.status = "Open";
     const rewardedTicket = new this.ticketModel(ticket);
     await rewardedTicket.save();
   }
 
-  async assignTicket(ticketId: number, user: User): Promise<void> {
+  async assignTicket(ticketId: string, user: User): Promise<void> {
     const ticket = await this.findById(ticketId);
     ticket.user = user;
     const rewardedTicket = new this.ticketModel(ticket);

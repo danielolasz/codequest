@@ -2,7 +2,7 @@ import { IsDate, IsNumber } from 'class-validator';
 export class RewardTicketDto {
 
   @IsNumber()
-  ticketId: number;
+  ticketId: string;
 
   @IsNumber()
   reward: number;
