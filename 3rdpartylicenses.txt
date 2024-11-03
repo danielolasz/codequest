@@ -353,6 +353,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 --------------------------------------------------------------------------------
+Package: @ng-icons/lucide
+License: "ISC"
+
+
+--------------------------------------------------------------------------------
 Package: clsx
 License: "MIT"
 
@@ -607,6 +612,11 @@ License: "Apache-2.0"
    limitations under the License.
 
 --------------------------------------------------------------------------------
+Package: @ng-icons/core
+License: "MIT"
+
+
+--------------------------------------------------------------------------------
 Package: @spartan-ng/ui-formfield-brain
 License: undefined
 
@@ -658,13 +668,18 @@ License: undefined
 
 
 --------------------------------------------------------------------------------
-Package: @ng-icons/lucide
-License: "ISC"
+Package: @spartan-ng/ui-menu-brain
+License: undefined
 
 
 --------------------------------------------------------------------------------
-Package: @ng-icons/core
-License: "MIT"
+Package: @spartan-ng/ui-dialog-brain
+License: undefined
+
+
+--------------------------------------------------------------------------------
+Package: @spartan-ng/ui-tooltip-brain
+License: undefined
 
 
 --------------------------------------------------------------------------------
