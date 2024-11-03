@@ -20,9 +20,9 @@ The project is a difficulty evaluation and gamification system designed to provi
 
 The following tools and technologies are used in this project:
 
-| <img src="frontend/src/assets/logos/Jira.png" alt="Jira API" width="100"/> | <img src="frontend/src/assets/logos/nvidia.png" alt="Nvidia AI" width="100"/> | <img src="frontend/src/assets/logos/NestJS.svg" alt="NestJS" width="100"/> | <img src="frontend/src/assets/logos/Angular.png" alt="Angular" width="100"/> | <img src="frontend/src/assets/logos/Spartan.svg" alt="Spartan UI" width="100"/> | <img src="frontend/src/assets/logos/TailwindCSS.png" alt="TailwindCSS" width="100"/> | <img src="frontend/src/assets/logos/github.png" alt="GitHub Pages" width="100"/> | <img src="frontend/src/assets/logos/herocu.png" alt="Heroku" width="100"/> |
-|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| **Jira API** | **Nvidia AI** | **NestJS** | **Angular** | **Spartan UI** | **TailwindCSS** | **GitHub Pages** | **Heroku** |
+| <img src="frontend/src/assets/logos/Jira.png" alt="Jira API" width="100"/> | <img src="frontend/src/assets/logos/nvidia.png" alt="Nvidia AI" width="100"/> | <img src="frontend/src/assets/logos/NestJS.svg" alt="NestJS" width="100"/> | <img src="frontend/src/assets/logos/Angular.png" alt="Angular" width="100"/> | <img src="frontend/src/assets/logos/Spartan.svg" alt="Spartan UI" width="100"/> | <img src="frontend/src/assets/logos/TailwindCSS.png" alt="TailwindCSS" width="100"/> | <img src="frontend/src/assets/logos/github.png" alt="GitHub Pages" width="100"/> | <img src="frontend/src/assets/logos/herocu.png" alt="Heroku" width="100"/> | <img src="frontend/src/assets/logos/mongo.png" alt="Mongo DB" width="100"/> |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| **Jira API** | **Nvidia AI** | **NestJS** | **Angular** | **Spartan UI** | **TailwindCSS** | **GitHub Pages** | **Heroku** | **Mongo DB** |
 
 ### Running the App
 
