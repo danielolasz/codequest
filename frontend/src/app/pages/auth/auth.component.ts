@@ -30,7 +30,7 @@ import { AuthService } from '../../shared/auth/auth.service';
 })
 export class AuthComponent {
   authForm: FormGroup;
-  isLogin = false;
+  isLogin = true;
 
   constructor(
     private fb: FormBuilder,

@@ -13,7 +13,7 @@ import { NavigationComponent } from "./shared/components/navigation/navigation.c
     BrowserModule,
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
-    NavigationComponent
+    NavigationComponent,
 ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]
