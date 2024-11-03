@@ -166,6 +166,7 @@ export class TicketsComponent implements OnInit {
       .subscribe(response => {
         if (response && response.message) {
           console.log(response.message);
+          this.updatePagination();
         }
       });
   }
@@ -175,15 +176,7 @@ export class TicketsComponent implements OnInit {
       .subscribe(response => {
         if (response && response.message) {
           console.log(response.message);
-        }
-      });
-  }
-
-  reopenTicket(ticketId: string): void {
-    this.apiService.post<{ message: string }>('tickets/reopen', {ticketId})
-      .subscribe(response => {
-        if (response && response.message) {
-          console.log(response.message);
+          this.updatePagination();
         }
       });
   }
@@ -197,6 +190,7 @@ export class TicketsComponent implements OnInit {
       .subscribe(response => {
         if (response && response.message) {
           console.log(response.message);
+          this.updatePagination();
         }
       });
   }

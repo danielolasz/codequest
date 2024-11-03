@@ -60,12 +60,4 @@ export class UserService {
     const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);
   }
-
-  public async addTicketToUser(userId, ticketId): Promise<User> | null {
-    return this.userModel.findByIdAndUpdate(
-      userId,
-      { $push: { tickets: ticketId } },
-      { new: true }
-    );
-  }
 }

@@ -15,7 +15,7 @@
                     <hlm-th class="w-[10%]">Status</hlm-th>
                     <hlm-th class="w-[10%]"></hlm-th>
                 </hlm-trow>
-                @for (ticket of paginatedTickets; track ticket.title) {
+                @for (ticket of paginatedTickets; track ticket.ticketId) {
                 <hlm-trow>
                     <hlm-td class="w-[25%]">{{ ticket.title }}</hlm-td>
                     @if (ticket.description.length > 40) {
@@ -79,7 +79,7 @@
                         {{ ticket.status }}
                     </hlm-td>
                     <hlm-td class="w-[10%] flex-col justify-center items-center">
-                        @if (ticket.status === 'In Progress') {
+                        @if (ticket.status !== 'Done') {
                             <button hlmBtn size="icon" variant="ghost" class="text-blue-800 hover:text-blue-800 flex flex-col gap-1 py-2 h-max" (click)="finishTicket(ticket._id)">
                                 <hlm-icon name="lucideCheck"></hlm-icon>
                             </button>

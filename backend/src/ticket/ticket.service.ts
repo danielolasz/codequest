@@ -28,14 +28,11 @@ export class TicketService {
     });
 
 
-    this.processTickets();
+    //this.processTickets();
   }
 
   async create(newTicket: CreateTicketDto): Promise<Ticket> {
     const createdTicket = new this.ticketModel(newTicket);
-    if(createdTicket) {
-      await this.userService.addTicketToUser(createdTicket.user, createdTicket._id)
-    }
     return createdTicket.save();
   }
 
@@ -74,6 +71,7 @@ export class TicketService {
             priority: ticket.fields.priority.name ? ticket.fields.priority.name : "None"
           };
           const createdTicket = await this.create(newTicket);
+          console.log("New ticket is added");
           await this.addTicketLevel(createdTicket)
 
         } catch (error) {
@@ -102,7 +100,6 @@ export class TicketService {
         body: bodyData,
       });
 
-      console.log(`Response: ${response.status} ${response.statusText}`);
       const text = JSON.parse(await response.text());
       return text.issues;
     } catch (error) {
@@ -148,13 +145,6 @@ export class TicketService {
     await rewardedTicket.save();
   }
 
-  async reopenTicket(ticketId: string): Promise<void> {
-    const ticket = await this.findById(ticketId);
-    ticket.status = "Open";
-    const rewardedTicket = new this.ticketModel(ticket);
-    await rewardedTicket.save();
-  }
-
   async assignTicket(ticketId: string, user: User): Promise<void> {
     const ticket = await this.findById(ticketId);
     ticket.user = user;
@@ -168,6 +158,7 @@ export class TicketService {
       ticket.level = JSON.parse(response).level as number
       ticket.level_explanation = JSON.parse(response).summary;    
       await this.create(ticket);
+      console.log("New ticket level is added.")
     } catch (error) {
        console.error('Error while trying to add ticket level: ', error);
     }

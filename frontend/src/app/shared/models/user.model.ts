@@ -5,7 +5,6 @@ export interface User {
     email: string;
     name: string;
     password: string;
-    tickets: Ticket[] | null;
     role: 'developer' | 'manager';
   }
   

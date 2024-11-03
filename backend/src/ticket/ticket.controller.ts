@@ -34,16 +34,6 @@ export class TicketController {
     }
   }
 
-  @Post('reopen')
-  async reopenTicket(@Body() param: { ticketId: string }) {
-    try {
-      await this.ticketService.reopenTicket(param.ticketId);    
-      return { message: 'Ticket reopened successfully' }
-    } catch (error) {
-      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
   @Post('assign')
   async assignTicket(@Body() param: { ticketId: string, user: User }) {
     try {

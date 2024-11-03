@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, ObjectId, Types } from 'mongoose';
-import { Ticket } from 'src/ticket/ticket.schema';
+import { Document, ObjectId } from 'mongoose';
 
 export type UserDocument = User & Document<ObjectId>;
 
@@ -15,9 +14,6 @@ export class User {
 
   @Prop({ required: true })
   password: string;
-
-  @Prop({ type: [Types.ObjectId], ref: 'Ticket' })
-  tickets: Ticket[]
   
   @Prop({ required: true, enum: ['developer', 'manager'] })
   role: 'developer' | 'manager';
