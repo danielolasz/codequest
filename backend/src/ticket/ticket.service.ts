@@ -134,6 +134,7 @@ export class TicketService {
     ticket.rewardedBy = user;
     ticket.rewarded = reward.rewarded;
     ticket.reward = reward.reward;
+    await this.userService.addRewardToUser(reward.rewardedBy, reward.reward);
     const rewardedTicket = new this.ticketModel(ticket);
     await rewardedTicket.save();
   }

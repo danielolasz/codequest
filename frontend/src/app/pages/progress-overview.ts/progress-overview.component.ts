@@ -29,7 +29,6 @@ export class ProgressOverviewComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.loggedInUser = this.authService.getUser();
-
     this.subscriptions.push(
       this.apiService.get<User[]>('users').subscribe((response) => {
         this.users = response;

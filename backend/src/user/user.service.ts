@@ -38,7 +38,7 @@ export class UserService {
     return this.userModel.findOne({ email }).exec();
   }
 
-  async findOne(id: number): Promise<User> | null {
+  async findOne(id: string): Promise<User> | null {
     if (!id) {
       return null;
     }
@@ -59,5 +59,16 @@ export class UserService {
   private async hashPassword(password: string): Promise<string> {
     const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);
+  }
+
+  async addRewardToUser(userId: string, reward: number) {
+    const user = await this.findOne(userId);
+    if(!user.rewards) {
+      user.rewards = reward;
+    } else {
+      user.rewards += reward;
+    }
+    const rewardedUser = new this.userModel(user);
+    rewardedUser.save();
   }
 }

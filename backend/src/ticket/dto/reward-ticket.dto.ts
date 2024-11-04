@@ -10,5 +10,5 @@ export class RewardTicketDto {
   @IsDate()
   rewarded: Date;
 
-  rewardedBy: number;
+  rewardedBy: string;
 }

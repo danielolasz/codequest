@@ -17,6 +17,9 @@ export class User {
   
   @Prop({ required: true, enum: ['developer', 'manager'] })
   role: 'developer' | 'manager';
+
+  @Prop({ })
+  rewards: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
