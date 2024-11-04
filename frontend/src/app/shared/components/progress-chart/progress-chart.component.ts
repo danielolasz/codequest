@@ -16,8 +16,8 @@ export class ProgressChartComponent {
       {
         label: 'Level',
         data: this.generateData(),
-        borderColor: 'rgb(75, 192, 192)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: '#00cadc',
+        backgroundColor: 'rgba(0, 202, 220, 0.5)',
       },
     ],
   };
@@ -56,8 +56,8 @@ export class ProgressChartComponent {
         {
           label: 'Level',
           data: this.generateData(),
-          borderColor: 'rgb(75, 192, 192)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: '#00cadc',
+          backgroundColor: 'rgba(0, 202, 220, 0.5)',
         },
       ],
     };
