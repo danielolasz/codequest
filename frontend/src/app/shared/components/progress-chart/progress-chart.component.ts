@@ -48,4 +48,26 @@ export class ProgressChartComponent {
   generateData() {
     return Array.from({ length: 365 }, () => Math.floor(Math.random() * 11));
   }
+
+  updateChart() {
+    this.chartData = {
+      labels: this.generateLabels(),
+      datasets: [
+        {
+          label: 'Level',
+          data: this.generateData(),
+          borderColor: 'rgb(75, 192, 192)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        },
+      ],
+    };
+
+    this.chartOptions = {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: 'Date' } },
+        y: { title: { display: true, text: 'Level' } },
+      },
+    };
+  }
 }

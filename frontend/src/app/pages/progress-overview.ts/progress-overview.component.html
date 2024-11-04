@@ -1,5 +1,11 @@
-<div class="progress-overview">
+<div class="progress-overview">  
   <h1>Progress Overview</h1>
+  <div *ngIf='loggedInUser?.role === "developer"'>
+    <label for="userSelect">Select User:</label>
+    <select id="userSelect" [(ngModel)]="selectedUserId" (change)="onUserSelect()">
+      <option *ngFor="let user of users" [value]="user._id">{{ user.name }}</option>
+    </select>  
+  </div>
   <div class="chart-container">
     <app-progress-chart></app-progress-chart>
   </div>
