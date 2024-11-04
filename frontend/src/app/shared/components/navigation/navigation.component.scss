@@ -1,3 +1,7 @@
 ::ng-deep button.active hlm-icon ng-icon svg {
     fill: #93c5fd;
 }
+
+::ng-deep hlm-icon.filled ng-icon svg {
+    fill: #facc15;
+}

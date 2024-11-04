@@ -1,6 +1,6 @@
 <div class="progress-overview">  
   <h1>Progress Overview</h1>
-  @if (loggedInUser?.role == "developer") {  
+  @if (loggedInUser?.role == "manager") {  
     <label for="userSelect">Select User:</label>
     <select id="userSelect" [(ngModel)]="selectedUserId" (change)="onUserSelect()">
       <option *ngFor="let user of users" [value]="user._id">{{ user.name }}</option>

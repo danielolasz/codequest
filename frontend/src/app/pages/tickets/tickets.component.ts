@@ -24,6 +24,7 @@ import { RewardDialogComponent } from '../../shared/components/dialogs/reward-di
 import { HlmSpinnerModule } from '@spartan-ng/ui-spinner-helm';
 import { HlmTooltipComponent, HlmTooltipModule, HlmTooltipTriggerDirective } from '@spartan-ng/ui-tooltip-helm';
 import { BrnTooltipContentDirective } from '@spartan-ng/ui-tooltip-brain';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-tickets',
@@ -42,6 +43,7 @@ import { BrnTooltipContentDirective } from '@spartan-ng/ui-tooltip-brain';
     HlmTooltipComponent,
     HlmTooltipTriggerDirective,
     BrnTooltipContentDirective,
+    DatePipe,
   ],
   providers: [provideIcons({ lucideChevronRight, lucideChevronLeft, lucideMoreVertical, lucideStar, lucideCheck })],
   templateUrl: './tickets.component.html',

@@ -7,17 +7,18 @@
         <p hlmCardContent>
             <hlm-table class="border rounded-xl block overflow-hidden">
                 <hlm-trow>
-                    <hlm-th class="w-[25%]">Title</hlm-th>
+                    <hlm-th class="w-[20%]">Title</hlm-th>
                     <hlm-th class="w-[20%]">Description</hlm-th>
                     <hlm-th class="w-[5%]">Level</hlm-th>
-                    <hlm-th class="w-[15%]">Created</hlm-th>
+                    <hlm-th class="w-[10%]">Priority</hlm-th>
+                    <hlm-th class="w-[10%]">Created</hlm-th>
                     <hlm-th class="w-[15%]">User</hlm-th>
                     <hlm-th class="w-[10%]">Status</hlm-th>
                     <hlm-th class="w-[10%]"></hlm-th>
                 </hlm-trow>
                 @for (ticket of paginatedTickets; track ticket.ticketId) {
                 <hlm-trow>
-                    <hlm-td class="w-[25%]">{{ ticket.title }}</hlm-td>
+                    <hlm-td class="w-[20%]">{{ ticket.title }}</hlm-td>
                     @if (ticket.description.length > 40) {
                         <hlm-td class="w-[20%]">
                             <hlm-tooltip>
@@ -33,7 +34,14 @@
                         <hlm-td class="w-[20%]">{{ ticket.description }}</hlm-td>
                     }
                     <hlm-td class="w-[5%] gap-[2px]">
-                        {{ ticket.level }} 
+                        <div class="min-w-4 w-4 min-h-full h-full rounded-xl flex flex-col-reverse items-center border-gray-400 border overflow-clip">
+                            <div 
+                                class="min-w-full" 
+                                [class]="+ticket.level! < 5 ? 'bg-green-400' : (+ticket.level! < 8 ? 'bg-yellow-400' : 'bg-red-500')"
+                                [style.minHeight.%]="+ticket.level! * 10">
+                            </div>
+                            <span class="ml-[1px] absolute z-10 text-center" [class]="+ticket.level! >= 8 ? 'text-white' : ''">{{ ticket.level }}</span>
+                        </div>
                         @if (ticket.level_explanation) {
                             <hlm-tooltip>
                                 <span hlmTooltipTrigger>
@@ -45,11 +53,19 @@
                             </hlm-tooltip>
                         }
                     </hlm-td>
-                    <hlm-td class="w-[15%]">{{ ticket.created }}</hlm-td>
+                    <hlm-td class="w-[10%]">
+                        <div 
+                            class="rounded-xl px-4 py-1 border-gray-400 border" 
+                            [class]="ticket.priority === 'Low' ? 'bg-green-400' 
+                                    : (ticket.priority === 'Medium' ? 'bg-yellow-400' : 'bg-red-500 text-white')">
+                            {{ ticket.priority }}
+                        </div>
+                    </hlm-td>
+                    <hlm-td class="w-[10%]">{{ ticket.created | date:'dd.mm.yyyy' }}</hlm-td>
                     <hlm-td class="w-[15%]">
-                        @if (loggedInUser?.role === 'developer') {
+                        @if (loggedInUser?.role === 'developer' || ticket.reward !== null) {
                             {{ ticket.user.name }}
-                        } @else {
+                        } @else if (ticket.reward === null) {
                             <brn-select placeholder="Choose user" [(ngModel)]="selectedUser"
                                 (ngModelChange)="assignTicket(ticket._id)">
                                 <hlm-select-trigger>

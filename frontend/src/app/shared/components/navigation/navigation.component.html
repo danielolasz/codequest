@@ -2,11 +2,13 @@
     <div class="w-full h-max flex flex-col items-center gap-2">
         <hlm-icon size="xl" name="lucideUser"></hlm-icon>
         <div class="flex flex-col items-center">
-            <span>{{loggedInUser?.name}}</span>
+            <span class="font-bold">{{loggedInUser?.name}}</span>
             <span>{{loggedInUser?.role}}</span>
             @if (loggedInUser?.role == "developer") {
-            <span>({{loggedInUser?.rewards}})</span>
-            <hlm-icon style="color: gold; "name="lucideStar"></hlm-icon>
+            <div class="flex justify-center items-center">
+                <span>({{loggedInUser?.rewards || 0}})</span>
+                <hlm-icon class="filled" name="lucideStar"></hlm-icon>
+            </div>
             }
         </div>
         <hr class="border-gray-500">

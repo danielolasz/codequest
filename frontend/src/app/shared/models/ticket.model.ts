@@ -10,6 +10,6 @@ export interface Ticket {
     created: Date;
     status: string;
     level_explanation?: string | null;
-    priotity: string;
+    priority: string;
     reward: number;
 }
