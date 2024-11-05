@@ -32,6 +32,9 @@ export class ProgressOverviewComponent implements OnInit, AfterViewInit {
     this.subscriptions.push(
       this.apiService.get<User[]>('users').subscribe((response) => {
         this.users = response;
+        if (this.users.length > 0) {
+          this.selectedUserId = this.users[0]._id;
+        }
       }, error => {
         console.error('Error fetching users:', error);
       })
